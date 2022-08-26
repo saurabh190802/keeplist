@@ -24,9 +24,16 @@ class KeepList(db.Model):
         return f"{self.sno} - {self.title}"
 
 
-
-
 @app.route('/', methods=["GET", "POST"])
+def reload():
+
+   
+
+    allTodo = KeepList.query.all()
+
+    return render_template("index.html", allTodo=allTodo)
+
+@app.route('/add', methods=["GET", "POST"])
 def hello_world():
 
     if request.method == "POST":
@@ -35,6 +42,8 @@ def hello_world():
         todo = KeepList(title=title, desc=desc)
         db.session.add(todo)
         db.session.commit()
+        return redirect("/")
+        
     
 
     allTodo = KeepList.query.all()
